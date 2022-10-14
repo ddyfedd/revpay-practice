@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-
+require('dotenv').config();
 /**
  * Module dependencies.
  */
-
+const API_KEY_SANDBOX = process.env.API_KEY_SANDBOX
+const API_KEY_LIVE = process.env.API_KEY_LIVE
 var app = require('../app');
 var debug = require('debug')('backend:server');
 var http = require('http');
@@ -12,7 +13,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '4001');
 app.set('port', port);
 
 /**
@@ -81,10 +82,13 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening() {
+ function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  debug(`Listening on Port ${port}`);
+  console.log('API_KEY_SANDBOX:', API_KEY_SANDBOX? 'API_KEY_SANDBOX was found' : "API_key for sandbox was not found")
+  console.log('API_KEY_Live:', API_KEY_LIVE? 'API_KEY_LIVE was found' : "API_key for live was not found")
+  console.log(`Listening on Port ${port}`);
 }

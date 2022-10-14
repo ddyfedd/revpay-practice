@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import RevolutCheckout from "@revolut/checkout";
+import RevolutCheckoutLoader from "@revolut/checkout";
+import UpdateOrderLive from "./Requests/UpdateOrder";
 import GetOrder from "./Requests/GetOrder";
-import ConfirmOrder from "./Requests/ConfirmOrder";
 
-const PaymentDev  = () => {
+const PaymentDev = () => {
   const [name, setName] = useState(null);
+  const [result, setResult] = useState(null);
   const [email, setEmail] = useState(null);
   const [billingAddress, setBillingAddress] = useState({
     countryCode: "",

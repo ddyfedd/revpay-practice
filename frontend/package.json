@@ -2,6 +2,7 @@
   "name": "shop-frontend",
   "version": "0.1.0",
   "private": true,
+  "type": "commonjs",
   "engines": {
     "node": "14.18.1"
   },
