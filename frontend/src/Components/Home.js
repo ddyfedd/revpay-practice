@@ -4,7 +4,7 @@ import Checkout from "./Requests/Checkout";
 import RevolutCheckout from "@revolut/checkout";
 
 function Home() {
-  const [currency, setCurrency] = useState("GBP");
+  const [currency, setCurrency] = useState("USD");
   const [searchfield, setSearchfield] = useState("");
   const [cart, setCart] = useState([]);
   const [sum, setSum] = useState(0);
@@ -69,7 +69,7 @@ function Home() {
   return (
     <div className="container">
       <h1> Revolut Shop </h1>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 3fr "}}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 3fr" }}>
         <div className="items">
           <div className="itemsList" style={{ textAlign: "left" }}>
             <ul>
@@ -82,7 +82,7 @@ function Home() {
               >
                 <input
                   style={{ display: "inline-block", margin: "1em 5px 5px 5px" }}
-                  placeholder="Search"
+                  placeholder="Search item"
                   onChange={(event) => {
                     setSearchfield(event.target.value);
                   }}
@@ -91,33 +91,49 @@ function Home() {
                   className="pay-option-button"
                   style={{ padding: "0px 10px" }}
                   onChange={(event) => setCurrency(event.target.value)}
-                  paceholder="GBP"
-                ></select>
+                  placeholder="USD"
+                >
+                  {currencies.map((currency) => (
+                    <option key={currency}> {currency} </option>
+                  ))}
+                </select>
               </li>
-              {items.filter((item) => 
-                item.name.toLowerCase().includes(searchfield.toLowerCase())
-              )
-              .map((item, i) => {
-                return (
-                  <li
-                    key={i}
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      margin: "5px"
-                    }}
-                  >
-                    {item.name} Price:{" "}
-                    {currency}
-                    <button
-                      className="pay-option-button"
-                      onClick={() => {
-                        addToCart(i);
+              {items
+                .filter((item) =>
+                  item.name.toLowerCase().includes(searchfield.toLowerCase())
+                )
+                .map((item, i) => {
+                  return (
+                    <li
+                      key={i}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        margin: "5px",
                       }}
-                    >Add to cart</button>
-                  </li>
-                );
-              })}
+                    >
+                      {item.name} Price:{" "}
+                      {currency === "USD"
+                        ? Math.round(Number(item.price))
+                        : currency === "GBP"
+                        ? Math.round(Number(item.price) * 0.74)
+                        : currency === "EUR"
+                        ? Math.round(Number(item.price) * 0.87)
+                        : currency === "JPY"
+                        ? Math.round(Number(item.price) * 127, 12)
+                        : Math.round(Number(item.price) * 4.28)}{" "}
+                      {currency}
+                      <button
+                        className="pay-option-button"
+                        onClick={() => {
+                          addToCart(i);
+                        }}
+                      >
+                        Add to cart
+                      </button>
+                    </li>
+                  );
+                })}
             </ul>
           </div>
         </div>
@@ -128,13 +144,13 @@ function Home() {
               <ul style={{ listStyle: "none" }}>
                 {cart.map((item, i) => {
                   return (
-                    <li 
+                    <li
                       key={i}
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
                         width: "40%",
-                        margin: "0 auto"
+                        margin: "0 auto",
                       }}
                     >
                       {item.name}
@@ -143,7 +159,7 @@ function Home() {
                         onClick={() => removeFromCart(i)}
                         style={{ margin: "5px" }}
                       >
-                        Remove
+                        Remove from Cart
                       </button>
                     </li>
                   );
@@ -151,21 +167,19 @@ function Home() {
               </ul>
               <button
                 className="pay-option-button"
-                onClick={() => 
+                onClick={() =>
                   Checkout(sum, currency, history, "Sandbox")
                 }
               >
                 {" "}
-                Go to Sandbox Checkout
+                Go to Checkout-Sandbox
               </button>
               <button
                 className="pay-option-button"
-                onClick={() => 
-                  Checkout(sum, currency, history, "Dev")
-                }
+                onClick={() => Checkout(sum, currency, history, "Live")}
               >
                 {" "}
-                Go to Dev Checkout
+                Go to Checkout-Live
               </button>
               <p
                 style={{
@@ -174,16 +188,23 @@ function Home() {
                 }}
               >
                 Total:{" "}
+                {currency === "GBP"
+                  ? Math.round(sum * 0.74)
+                  : currency === "EUR"
+                  ? Math.round(sum * 0.87)
+                  : currency === "RON"
+                  ? Math.round(sum * 4.28)
+                  : Math.round(sum)}{" "}
                 {currency}
               </p>
               <div
                 style={{
                   width: "400px",
                   margin: "10px auto",
-                  borderRadius: "8px",
-                  padding: "6px"
-                }} 
-                id="revolut-payment-request"  
+                  borderRadius: "10px",
+                  padding: "6px",
+                }}
+                id="revolut-payment-request"
               ></div>
             </div>
           ) : (
@@ -192,7 +213,7 @@ function Home() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Home;
