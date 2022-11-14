@@ -1,11 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
 import React from "react"
 import { ReactDOM } from 'react-dom';
 import RevolutCheckout from '@revolut/checkout';
 
 function RevolutPay() {
-  const order = { amount: 5000, currency: 'GBP' }
 
   RevolutCheckout.payments({
     locale: 'en',
@@ -15,11 +13,24 @@ function RevolutPay() {
     
 
     const paymentOptions = {
-      currency: order.currency,
-      totalAmount: order.amount,
+      currency: 'GBP',
+      totalAmount: 5000,
       buttonStyle: { variant: 'dark' },
 
-      //createOrder: () => ({ publicId: public_id })
+      createOrder: async () => {
+        const order = await fetch(`/card/newOrderSandbox`, {
+          method: "POST",
+          body: JSON.stringify({ amount: paymentOptions.totalAmount, currency: paymentOptions.currency }),
+          headers: {
+            "Content-Type": "application/json"
+          },
+        })
+        .then((res) => res.json())
+        .then((data) => {return data})
+
+        console.log(order)
+        return ({ publicId: order.public_id })
+      }
       
     };
 
