@@ -22,7 +22,7 @@ function RevolutPay() {
           method: "POST",
           body: JSON.stringify({ amount: paymentOptions.totalAmount, currency: paymentOptions.currency }),
           headers: {
-            "Content-Type": "application/json; charset=utf-8"
+            "Content-Type": "application/json"
           },
         })
         .then((res) => res.json())
