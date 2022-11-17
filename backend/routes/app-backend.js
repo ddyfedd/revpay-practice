@@ -18,12 +18,13 @@ router.post("/", async function (req, res, next) {
 
 router.post("/newOrderSandbox", async function (req, res, next) {
   let data = req.body;
+  console.log(data);
   let response = await axios.post(
     "https://sandbox-merchant.revolut.com/api/1.0/orders",
     data,
     {
       headers: {
-        Authorization: `Bearer ${API_KEY_SANDBOX}`,
+        "Authorization": `Bearer ${API_KEY_SANDBOX}`,
         "Content-Type": "application/json; charset=utf-8",
       },
     }
@@ -74,66 +75,5 @@ router.post("/confirmOrderSandbox", async function (req, res, next) {
     });
 });
 
-/* DEV */
-/* New Order Dev */
-
-router.post("/newOrderLive", async function (req, res, next) {
-  let data = req.body;
-  let response = await axios.post(
-    "https://merchant.revolut.codes/api/1.0/orders",
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${API_KEY_LIVE}`,
-        "Content-Type": "application/json; charset=utf-8",
-      },
-    }
-  );
-  res.json(response.data);
-});
-
-/* Update Order Live */
-
-router.post("/updateOrderLive", async function (req, res, next) {
-  let amount = req.body.amount;
-  let currency = req.body.currency;
-  let data = { amount, currency };
-  let order_id = req.body.order_id;
-  axios.patch(`https://merchant.revolut.codes/api/1.0/orders/${order_id}`, 
-    data, {
-      headers: {
-        Authorization: `Bearer ${API_KEY_LIVE}`,
-        "Content-Type": "application/json; charset=utf-8",
-      },
-    })
-    .then((resp) => {
-      console.log(">>>>> OK ", resp.data);
-      res.json(resp.data);
-    })
-    .catch((err) => {
-      throw err;
-    });
-});
-
-
-/* Retrieve Order Dev */
-
-router.post("/retrieveOrderLive", async function (req, res, next) {
-  
-  let order_id = req.body.order_id;
-  axios.get(`https://merchant.revolut.codes/api/1.0/orders/${order_id}`, {
-      headers: {
-        Authorization: `Bearer ${API_KEY_LIVE}`,
-        "Content-Type": "application/json; charset=utf-8",
-      },
-    })
-    .then((resp) => {
-      console.log("Order retrieved successful ", resp.data);
-      res.json(resp.data);
-    })
-    .catch((err) => {
-      throw err;
-    });
-});
 
 module.exports = router;

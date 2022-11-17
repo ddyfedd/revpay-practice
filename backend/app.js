@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('dotenv').config()
 
-var cardRouter = require('./routes/card-backend');
+var cardRouter = require('./routes/app-backend');
 
 var app = express();
 
@@ -23,7 +23,7 @@ app.use('/', (req, res) => {
   res.send('Deployment worked!');
 });
 
-app.use('/card', cardRouter);
+app.use('/app', cardRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
