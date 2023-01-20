@@ -18,13 +18,13 @@ router.post("/", async function (req, res, next) {
 
 router.post("/newOrderSandbox", async function (req, res, next) {
   let data = req.body;
-  console.log(data);
+  
   let response = await axios.post(
     "https://sandbox-merchant.revolut.com/api/1.0/orders",
     data,
     {
       headers: {
-        "Authorization": `Bearer ${API_KEY_SANDBOX}`,
+        Authorization: `Bearer ${API_KEY_SANDBOX}`,
         "Content-Type": "application/json; charset=utf-8",
       },
     }
