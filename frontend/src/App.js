@@ -18,7 +18,7 @@ function RevolutPay() {
       buttonStyle: { variant: 'dark' },
 
       createOrder: async () => {
-        const order = await fetch(`/card/newOrderSandbox`, {
+        const order = await fetch(`/app/newOrderSandbox`, {
           method: "POST",
           body: JSON.stringify({ amount: paymentOptions.totalAmount, currency: paymentOptions.currency }),
           headers: {
