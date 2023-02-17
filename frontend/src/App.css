@@ -2,33 +2,15 @@
   text-align: center;
 }
 
-.pay-option-button {
-  padding: 5px 10px;
-  color: beige;
-  background-color: gray;
-  border-radius: 8px;
-  margin-right: 10 px;
-  border: none;
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
-.pay-options-button:hover {
-  cursor: pointer;
-  background-color: transparent;
-  color: thistle;
-  background-color:#282c34;
-}
-
-body {
-  color: white;
-  z-index: -3;
-}
-
-html {
-  background-color:slategray;
-}
-
-#order-div {
-  text-align: justify;
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }
 
 .App-header {
@@ -46,3 +28,11 @@ html {
   color: #61dafb;
 }
 
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
